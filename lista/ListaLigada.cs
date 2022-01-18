@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace aula.lista
@@ -31,6 +32,12 @@ namespace aula.lista
                 tempVagao = tempVagao.VagaoAnterior;
             };
             return _trem;
+        }
+
+        public Vagao getVagaoById(int id)
+        {
+            var vagoes = getVagoes();
+            return vagoes.FirstOrDefault(x => x.Id == id);
         }
     }
 }

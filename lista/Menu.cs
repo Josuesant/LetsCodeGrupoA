@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace aula.lista
 {
@@ -18,16 +19,11 @@ namespace aula.lista
 
     public class Menu
     {
+        static ListaLigada gerenciarVagoes = new ListaLigada();
+
         public static void main() {
-            // Console.ReadLine();
-            
-            // Console.WriteLine("Filas...");
-            // if(initialQueue.Count <= 0) {
-            //     initialQueue = CreateQueue();
-            // }
-            ListaLigada gerenciarVagoes = new ListaLigada();
 
-
+            Console.Clear();
             Console.WriteLine("Escolha uma das opções...");
             Console.WriteLine("1. Adicionar um novo vagão");
             Console.WriteLine("2. Exibir o último vagão");
@@ -38,43 +34,74 @@ namespace aula.lista
             Console.WriteLine("7. Atualizar as informações de um vagão");
             Console.WriteLine("8. Excluir um vagão");
             Console.WriteLine("0. Sair");
-            Console.Write("Opção: ");
+            Console.WriteLine("Opção: ");
 
-            switch (Console.Read())
+            switch (Console.ReadLine())
             {
-                case '1':
+                case "1":
+                    Console.Clear();
                     gerenciarVagoes.InserirVagao(CriarVagao());
+                    Console.WriteLine("Vagão adicionado!");
+                    Console.ReadLine();
                     break;
-                case '2':
-                    Console.WriteLine("Removendo um valor da fila...");
-                    initialQueue.Dequeue();
+                case "2":
+                    Console.Clear();
+                    var ultimoVagao = gerenciarVagoes.getUltimoVagao();
+                    Console.WriteLine("ÚLTIMO VAGÃO\n");
+                    ExibirVagao(ultimoVagao);
+                    Console.ReadLine();
                     break;
-                case '3':
-                    Console.WriteLine(initialQueue.Peek());
-                    break;
-                case '4':
-                    ShowQueue(initialQueue);
-                    break;
-                case '0':
+                case "7":
+                    Console.Clear();
+                    AtualizarVagao();
+                   break;
+                case "0":
                     Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Opção invalida, tente novamente...");
                     break;
             }
-            Menu(initialQueue);
-
+            main();
         }
 
-        public static  Vagao CriarVagao(){
+        private static  Vagao CriarVagao(){
+            Console.WriteLine("NOVO VAGÃO\n");
             Console.WriteLine("Numero do Id: ");
-            var id = int.Parse(Console.ReadLine());
+            
+            int id = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Nome da carga: ");
             var carga = Console.ReadLine();
             Console.WriteLine("Peso da carga: ");
             var peso = int.Parse(Console.ReadLine());
 
-            return new Vagao{Id=id, Carga=carga, Peso=peso};
+            return new Vagao{ Id = id, Carga = carga, Peso = peso};
+        }
+
+        private static void ExibirVagao(Vagao vagao)
+        {
+            Console.WriteLine($"ID: {vagao.Id}");
+            Console.WriteLine($"Carga: {vagao.Carga}");
+            Console.WriteLine($"Peso: {vagao.Peso}");
+        }
+
+        private static void AtualizarVagao()
+        {
+            Console.WriteLine("ATUALIZAR VAGÃO\n");
+            Console.Write("Digite o ID do vagão que deseja atualizar: ");
+            var id = Convert.ToInt32(Console.ReadLine());
+            var vagao = gerenciarVagoes.getVagaoById(id);
+
+            if (vagao == null)
+                Console.WriteLine("Vagão não encontrado!");
+            else
+            {
+                Console.WriteLine("Nova carga: ");
+                vagao.Carga = Console.ReadLine();
+                Console.WriteLine("Novo peso: ");
+                vagao.Peso = int.Parse(Console.ReadLine());
+            }
+            Console.ReadLine();
         }
     }
 }
