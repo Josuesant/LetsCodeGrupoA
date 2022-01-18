@@ -1,0 +1,26 @@
+{
+    "Id": 5,
+    "Carga": "Soja", 
+    "Peso": 30,
+    "VagaoAnterior": {
+        "Id": 4,
+        "Carga": "Trigo", 
+        "Peso": 25,
+        "VagaoAnterior": {
+            "Id": 3,
+            "Carga": "Farinha", 
+            "Peso": 20,
+            "VagaoAnterior": {
+                "Id": 2,
+                "Carga": "Feijão", 
+                "Peso": 15,
+                "VagaoAnterior": {
+                    "Id": 1,
+                    "Carga": "Arroz", 
+                    "Peso": 10,
+                    "VagaoAnterior": null
+                }
+            }
+        }
+    }
+}
