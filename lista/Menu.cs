@@ -19,22 +19,62 @@ namespace aula.lista
     public class Menu
     {
         public static void main() {
+            // Console.ReadLine();
+            
+            // Console.WriteLine("Filas...");
+            // if(initialQueue.Count <= 0) {
+            //     initialQueue = CreateQueue();
+            // }
             ListaLigada gerenciarVagoes = new ListaLigada();
-            Vagao vagao1 = new Vagao() { Id = 1, Carga = "Arroz", Peso = 10 };
-            Vagao vagao2 = new Vagao() { Id = 2, Carga = "Feijão", Peso = 15 };
-            Vagao vagao3 = new Vagao() { Id = 3, Carga = "Farinha", Peso = 20 };
-            Vagao vagao4 = new Vagao() { Id = 4, Carga = "Trigo", Peso = 25 };
-            Vagao vagao5 = new Vagao() { Id = 5, Carga = "Soja", Peso = 30 };
-            gerenciarVagoes.InserirVagao(vagao1);
-            gerenciarVagoes.InserirVagao(vagao2);
-            gerenciarVagoes.InserirVagao(vagao3);
-            gerenciarVagoes.InserirVagao(vagao4);
-            gerenciarVagoes.InserirVagao(vagao5);
-            foreach(Vagao item in gerenciarVagoes.getVagoes()) {
-                Console.WriteLine("ID {0}", item.Id);
-                Console.WriteLine("Carga {0}", item.Carga);
-                Console.WriteLine("Peso {0}", item.Peso);
+
+
+            Console.WriteLine("Escolha uma das opções...");
+            Console.WriteLine("1. Adicionar um novo vagão");
+            Console.WriteLine("2. Exibir o último vagão");
+            Console.WriteLine("3. Exibir todos os vagões");
+            Console.WriteLine("4. Buscar por id dentro do trem");
+            Console.WriteLine("5. Buscar por nome dentro do trem");
+            Console.WriteLine("6. Buscar por peso dentro do trem");
+            Console.WriteLine("7. Atualizar as informações de um vagão");
+            Console.WriteLine("8. Excluir um vagão");
+            Console.WriteLine("0. Sair");
+            Console.Write("Opção: ");
+
+            switch (Console.Read())
+            {
+                case '1':
+                    gerenciarVagoes.InserirVagao(CriarVagao());
+                    break;
+                case '2':
+                    Console.WriteLine("Removendo um valor da fila...");
+                    initialQueue.Dequeue();
+                    break;
+                case '3':
+                    Console.WriteLine(initialQueue.Peek());
+                    break;
+                case '4':
+                    ShowQueue(initialQueue);
+                    break;
+                case '0':
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Opção invalida, tente novamente...");
+                    break;
             }
+            Menu(initialQueue);
+
+        }
+
+        public static  Vagao CriarVagao(){
+            Console.WriteLine("Numero do Id: ");
+            var id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Nome da carga: ");
+            var carga = Console.ReadLine();
+            Console.WriteLine("Peso da carga: ");
+            var peso = int.Parse(Console.ReadLine());
+
+            return new Vagao{Id=id, Carga=carga, Peso=peso};
         }
     }
 }
