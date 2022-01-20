@@ -5,15 +5,15 @@ namespace aula.lista
 {
     /**
         Criar um menu com as opções
-            1 - Adicionar um novo vagão
-            2 - Exibir o último vagão
-            3 - Exibir todos os vagões
-            4 - Buscar por id dentro do trem
+            1 - Adicionar um novo vagão - OK
+            2 - Exibir o último vagão - OK
+            3 - Exibir todos os vagões - OK
+            4 - Buscar por id dentro do trem - OK
             5 - Buscar por nome dentro do trem
             6 - Buscar por peso dentro do trem
-            7 - Atualizar as informações de um vagão
+            7 - Atualizar as informações de um vagão - OK
             8 - Excluir um vagão
-            0 - Sair
+            0 - Sair - OK
     **/
 
     public class Menu
@@ -55,6 +55,11 @@ namespace aula.lista
                     var listaVagoes = gerenciarVagoes.getVagoes();
                     Console.WriteLine("TODOS OS VAGÕES:");
                     ExibirTodosVagoes(listaVagoes);
+                    Console.ReadLine();
+                    break;
+                case "4":
+                    Console.Clear();
+                    BuscarVagaoPorId();
                     Console.ReadLine();
                     break;
                 case "7":
@@ -100,6 +105,17 @@ namespace aula.lista
                 Console.WriteLine($"Carga: {vagao.Carga}");
                 Console.WriteLine($"Peso: {vagao.Peso}");
             }
+        }
+
+        public static void BuscarVagaoPorId()
+        {
+            Console.Write("ID: ");
+            var id = Convert.ToInt32(Console.ReadLine());
+            var vagao = gerenciarVagoes.getVagaoById(id);
+
+            Console.WriteLine($"ID: {vagao.Id}");
+            Console.WriteLine($"Carga: {vagao.Carga}");
+            Console.WriteLine($"Peso: {vagao.Peso}");
         }
 
         private static void AtualizarVagao()
