@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace aula.lista
 {
@@ -21,8 +20,8 @@ namespace aula.lista
     {
         static ListaLigada gerenciarVagoes = new ListaLigada();
 
-        public static void main() {
-
+        public static void main()
+        {
             Console.Clear();
             Console.WriteLine("Escolha uma das opções...");
             Console.WriteLine("1. Adicionar um novo vagão");
@@ -51,10 +50,17 @@ namespace aula.lista
                     ExibirVagao(ultimoVagao);
                     Console.ReadLine();
                     break;
+                case "3":
+                    Console.Clear();
+                    var listaVagoes = gerenciarVagoes.getVagoes();
+                    Console.WriteLine("TODOS OS VAGÕES:");
+                    ExibirTodosVagoes(listaVagoes);
+                    Console.ReadLine();
+                    break;
                 case "7":
                     Console.Clear();
                     AtualizarVagao();
-                   break;
+                    break;
                 case "0":
                     Environment.Exit(0);
                     break;
@@ -65,17 +71,18 @@ namespace aula.lista
             main();
         }
 
-        private static  Vagao CriarVagao(){
+        private static Vagao CriarVagao()
+        {
             Console.WriteLine("NOVO VAGÃO\n");
             Console.WriteLine("Numero do Id: ");
-            
+
             int id = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Nome da carga: ");
             var carga = Console.ReadLine();
             Console.WriteLine("Peso da carga: ");
             var peso = int.Parse(Console.ReadLine());
 
-            return new Vagao{ Id = id, Carga = carga, Peso = peso};
+            return new Vagao { Id = id, Carga = carga, Peso = peso };
         }
 
         private static void ExibirVagao(Vagao vagao)
@@ -83,6 +90,16 @@ namespace aula.lista
             Console.WriteLine($"ID: {vagao.Id}");
             Console.WriteLine($"Carga: {vagao.Carga}");
             Console.WriteLine($"Peso: {vagao.Peso}");
+        }
+
+        private static void ExibirTodosVagoes(List<Vagao> listaVagoes)
+        {
+            foreach (var vagao in listaVagoes)
+            {
+                Console.WriteLine($"ID: {vagao.Id}");
+                Console.WriteLine($"Carga: {vagao.Carga}");
+                Console.WriteLine($"Peso: {vagao.Peso}");
+            }
         }
 
         private static void AtualizarVagao()
