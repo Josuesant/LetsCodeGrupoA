@@ -61,10 +61,8 @@ namespace aula.lista
         {
             var vagoes = GetVagoes();
             var proximoVagao = vagoes.FirstOrDefault(x => x.VagaoAnterior?.Id == vagao.Id);
-
-            bool primeiroVagaoDoTrem = proximoVagao == null;
             
-            if(primeiroVagaoDoTrem)
+            if(proximoVagao == null)
                 Trem = vagao.VagaoAnterior;
             else            
                 proximoVagao.VagaoAnterior = vagao.VagaoAnterior;
