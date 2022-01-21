@@ -66,23 +66,6 @@ namespace aula.lista
                 Trem = vagao.VagaoAnterior;
             else            
                 proximoVagao.VagaoAnterior = vagao.VagaoAnterior;
-
-            //var v = Trem;
-            //if (Trem.Id == id)
-            //{
-            //    Trem = Trem.VagaoAnterior;
-            //}
-            //else
-            //{
-            //    while (v != null)
-            //    {
-            //        if (id == v.VagaoAnterior.Id)
-            //        {
-            //            v.VagaoAnterior = v.VagaoAnterior.VagaoAnterior;
-            //        }
-            //        v = v.VagaoAnterior;
-            //    }
-            //}
         }
     }
 }
