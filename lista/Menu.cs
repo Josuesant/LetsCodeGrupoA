@@ -225,9 +225,12 @@ namespace aula.lista
 
             if (vagao == null)
                 Console.WriteLine("Vagão não encontrado!");
-
-            gerenciarVagoes.DeletarVagao(vagao);
-            Console.WriteLine("Vagão excluído!");
+            else
+            {
+                gerenciarVagoes.DeletarVagao(vagao);
+                Console.WriteLine("Vagão excluído!");
+            }
+            
             Console.ReadLine();
         }
     }
