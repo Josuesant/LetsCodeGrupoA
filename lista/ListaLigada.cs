@@ -12,22 +12,22 @@ namespace aula.lista
             if (Trem == null) Trem = novoVagao;
             else
             {
-                var vagaoAnterior = getUltimoVagao();
+                var vagaoAnterior = GetUltimoVagao();
                 vagaoAnterior.VagaoAnterior = novoVagao;
             }
         }
 
-        public Vagao getUltimoVagao()
+        public Vagao GetUltimoVagao()
         {
             var tempVagao = Trem;
-            while (tempVagao.VagaoAnterior != null)
+            while (tempVagao!= null && tempVagao.VagaoAnterior != null)
             {
                 tempVagao = tempVagao.VagaoAnterior;
             }
             return tempVagao;
         }
 
-        public List<Vagao> getVagoes()
+        public List<Vagao> GetVagoes()
         {
             var _trem = new List<Vagao>();
             var tempVagao = Trem;
@@ -39,42 +39,52 @@ namespace aula.lista
             return _trem;
         }
 
-        public Vagao getVagaoById(int id)
+        public Vagao GetVagaoById(int id)
         {
-            var vagoes = getVagoes();
+            var vagoes = GetVagoes();
             return vagoes.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<Vagao> getVagaoByName(string carga)
+        public List<Vagao> GetVagaoByName(string carga)
         {
-           var vagoes = getVagoes();
+           var vagoes = GetVagoes();
             return vagoes.Where(x => x.Carga == carga).ToList();
         }
 
-        public List<Vagao> getVagaoByPeso(int peso)
+        public List<Vagao> GetVagaoByPeso(int peso)
         {
-           var vagoes = getVagoes();
+           var vagoes = GetVagoes();
            return vagoes.Where(x => x.Peso == peso).ToList();
         }
 
-        public void deletarVagaoById(int id)
+        public void DeletarVagao(Vagao vagao)
         {
-            var v = Trem;
-            if (Trem.Id == id)
-            {
-                Trem = Trem.VagaoAnterior;
-            }
-            else
-            {
-                while (v != null)
-                {
-                    if (id == v.VagaoAnterior.Id)
-                    {
-                        v.VagaoAnterior = v.VagaoAnterior.VagaoAnterior;
-                    }
-                    v = v.VagaoAnterior;
-                }
-            }
+            var vagoes = GetVagoes();
+            var proximoVagao = vagoes.FirstOrDefault(x => x.VagaoAnterior?.Id == vagao.Id);
+
+            bool primeiroVagaoDoTrem = proximoVagao == null;
+            
+            if(primeiroVagaoDoTrem)
+                Trem = vagao.VagaoAnterior;
+            else            
+                proximoVagao.VagaoAnterior = vagao.VagaoAnterior;
+
+            //var v = Trem;
+            //if (Trem.Id == id)
+            //{
+            //    Trem = Trem.VagaoAnterior;
+            //}
+            //else
+            //{
+            //    while (v != null)
+            //    {
+            //        if (id == v.VagaoAnterior.Id)
+            //        {
+            //            v.VagaoAnterior = v.VagaoAnterior.VagaoAnterior;
+            //        }
+            //        v = v.VagaoAnterior;
+            //    }
+            //}
         }
     }
 }

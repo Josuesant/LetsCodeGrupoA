@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace aula.lista
 {
@@ -25,64 +26,46 @@ namespace aula.lista
             Console.Clear();
             Console.WriteLine("Escolha uma das opções...");
             Console.WriteLine("1. Adicionar um novo vagão");
-            Console.WriteLine("2. Exibir o último vagão");
-            Console.WriteLine("3. Exibir todos os vagões");
-            Console.WriteLine("4. Buscar por id dentro do trem");
-            Console.WriteLine("5. Buscar por nome dentro do trem");
-            Console.WriteLine("6. Buscar por peso dentro do trem");
-            Console.WriteLine("7. Atualizar as informações de um vagão");
-            Console.WriteLine("8. Excluir um vagão");
+            
+            if(gerenciarVagoes.Trem != null)
+            {
+                Console.WriteLine("2. Exibir o último vagão");
+                Console.WriteLine("3. Exibir todos os vagões");
+                Console.WriteLine("4. Buscar por id dentro do trem");
+                Console.WriteLine("5. Buscar por nome dentro do trem");
+                Console.WriteLine("6. Buscar por peso dentro do trem");
+                Console.WriteLine("7. Atualizar as informações de um vagão");
+                Console.WriteLine("8. Excluir um vagão");
+            }
+
             Console.WriteLine("0. Sair");
             Console.WriteLine("Opção: ");
 
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.Clear();
-                    gerenciarVagoes.InserirVagao(CriarVagao());
-                    Console.WriteLine("Vagão adicionado!");
-                    Console.ReadLine();
+                    AdicionarVagao();
                     break;
                 case "2":
-                    Console.Clear();
-                    var ultimoVagao = gerenciarVagoes.getUltimoVagao();
-                    Console.WriteLine("ÚLTIMO VAGÃO\n");
-                    ExibirVagao(ultimoVagao);
-                    Console.ReadLine();
+                    ExibirUltimoVagao();
                     break;
                 case "3":
-                    Console.Clear();
-                    var listaVagoes = gerenciarVagoes.getVagoes();
-                    Console.WriteLine("TODOS OS VAGÕES:");
-                    ExibirTodosVagoes(listaVagoes);
-                    Console.ReadLine();
+                    ExibirTodosVagoes();
                     break;
                 case "4":
-                    Console.Clear();
                     BuscarVagaoPorId();
-                    Console.ReadLine();
                     break;
                 case "5":
-                    Console.Clear();
-                    BuscarVagaoPorNome();
-                    Console.ReadLine();
+                    BuscarVagaoPorCarga();
                     break;
                 case "6":
-                    Console.Clear();
                     BuscarVagaoPorPeso();
-                    Console.ReadLine();
                     break;
                 case "7":
-                    Console.Clear();
                     AtualizarVagao();
                     break;
 		        case "8":
-                    Console.Clear();
-                    Console.Write("Digite o ID do vagão que deseja excluir: ");
-                    var id = Convert.ToInt32(Console.ReadLine());
-                    gerenciarVagoes.deletarVagaoById(id);
-                    Console.WriteLine("Vagão excluído!");
-                    Console.ReadLine();
+                    ExcluirVagao();
                 break;
                 case "0":
                     Environment.Exit(0);
@@ -92,6 +75,14 @@ namespace aula.lista
                     break;
             }
             main();
+        }
+
+        private static void AdicionarVagao()
+        {
+            Console.Clear();
+            gerenciarVagoes.InserirVagao(CriarVagao());
+            Console.WriteLine("Vagão adicionado!");
+            Console.ReadLine();
         }
 
         private static Vagao CriarVagao()
@@ -108,6 +99,17 @@ namespace aula.lista
             return new Vagao { Id = id, Carga = carga, Peso = peso };
         }
 
+        private static void ExibirUltimoVagao()
+        {
+            Console.Clear();
+
+            var ultimoVagao = gerenciarVagoes.GetUltimoVagao();
+
+            Console.WriteLine("ÚLTIMO VAGÃO\n");
+            ExibirVagao(ultimoVagao);
+
+            Console.ReadLine();
+        }
         private static void ExibirVagao(Vagao vagao)
         {
             Console.WriteLine($"ID: {vagao.Id}");
@@ -115,61 +117,78 @@ namespace aula.lista
             Console.WriteLine($"Peso: {vagao.Peso}");
         }
 
-        private static void ExibirTodosVagoes(List<Vagao> listaVagoes)
+        private static void ExibirTodosVagoes()
         {
-            foreach (var vagao in listaVagoes)
-            {
-                Console.WriteLine($"ID: {vagao.Id}");
-                Console.WriteLine($"Carga: {vagao.Carga}");
-                Console.WriteLine($"Peso: {vagao.Peso}");
-            }
+            Console.Clear();
+
+            var listaVagoes = gerenciarVagoes.GetVagoes();
+            Console.WriteLine("TODOS OS VAGÕES:");
+
+            foreach (var vagao in listaVagoes)            
+                ExibirVagao(vagao);
+
+            Console.ReadLine();
         }
 
         public static void BuscarVagaoPorId()
         {
-            Console.Write("ID: ");
-            var id = Convert.ToInt32(Console.ReadLine());
-            var vagao = gerenciarVagoes.getVagaoById(id);
+            Console.Clear();
 
-            Console.WriteLine($"ID: {vagao.Id}");
-            Console.WriteLine($"Carga: {vagao.Carga}");
-            Console.WriteLine($"Peso: {vagao.Peso}");
+            Console.Write("ID: ");
+
+            var id = Convert.ToInt32(Console.ReadLine());
+            var vagao = gerenciarVagoes.GetVagaoById(id);
+
+            if (vagao != null)
+                ExibirVagao(vagao);
+            else
+                Console.WriteLine("Vagão não encontrado!");
+
+            Console.ReadLine();
         }
 
-        public static void BuscarVagaoPorNome()
+        public static void BuscarVagaoPorCarga()
         {
-            Console.Write("Nome: ");
-            var carga = Console.ReadLine();
-            var vagoes = gerenciarVagoes.getVagaoByName(carga);
+            Console.Clear();
 
-            foreach (var vagao in vagoes)
-            {
-                Console.WriteLine($"ID: {vagao.Id}");
-                Console.WriteLine($"Carga: {vagao.Carga}");
-                Console.WriteLine($"Peso: {vagao.Peso}");
-            }
+            Console.Write("Carga: ");
+            var carga = Console.ReadLine();
+            var vagoes = gerenciarVagoes.GetVagaoByName(carga);
+
+            if(vagoes.Any())
+                foreach (var vagao in vagoes)            
+                    ExibirVagao(vagao);
+            else
+                Console.WriteLine("Vagão não encontrado!");
+
+            Console.ReadLine();
         }
 
         public static void BuscarVagaoPorPeso()
         {
+            Console.Clear();
+
             Console.Write("Peso: ");
             var peso = Convert.ToInt32(Console.ReadLine());
-            var vagoes = gerenciarVagoes.getVagaoByPeso(peso);
+            var vagoes = gerenciarVagoes.GetVagaoByPeso(peso);
+            
+            if (vagoes.Any())
+                foreach (var vagao in vagoes)
+                    ExibirVagao(vagao);
+            else
+                Console.WriteLine("Vagão não encontrado!");
 
-            foreach (var vagao in vagoes)
-            {
-                Console.WriteLine($"ID: {vagao.Id}");
-                Console.WriteLine($"Carga: {vagao.Carga}");
-                Console.WriteLine($"Peso: {vagao.Peso}");
-            }
+            Console.ReadLine();
         }
 
         private static void AtualizarVagao()
         {
+            Console.Clear();
+
             Console.WriteLine("ATUALIZAR VAGÃO\n");
             Console.Write("Digite o ID do vagão que deseja atualizar: ");
             var id = Convert.ToInt32(Console.ReadLine());
-            var vagao = gerenciarVagoes.getVagaoById(id);
+            var vagao = gerenciarVagoes.GetVagaoById(id);
 
             if (vagao == null)
                 Console.WriteLine("Vagão não encontrado!");
@@ -179,7 +198,23 @@ namespace aula.lista
                 vagao.Carga = Console.ReadLine();
                 Console.WriteLine("Novo peso: ");
                 vagao.Peso = int.Parse(Console.ReadLine());
+                Console.WriteLine("Vagão atualizao!");
             }
+            Console.ReadLine();
+        }
+
+        private static void ExcluirVagao()
+        {
+            Console.Clear();
+            Console.Write("Digite o ID do vagão que deseja excluir: ");
+            var id = Convert.ToInt32(Console.ReadLine());
+            var vagao = gerenciarVagoes.GetVagaoById(id);
+
+            if (vagao == null)
+                Console.WriteLine("Vagão não encontrado!");
+
+            gerenciarVagoes.DeletarVagao(vagao);
+            Console.WriteLine("Vagão excluído!");
             Console.ReadLine();
         }
     }
