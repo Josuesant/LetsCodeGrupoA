@@ -45,10 +45,16 @@ namespace aula.lista
             return vagoes.FirstOrDefault(x => x.Id == id);
         }
 
+        public List<Vagao> getVagaoByName(string carga)
+        {
+           var vagoes = getVagoes();
+            return vagoes.Where(x => x.Carga == carga).ToList();
+        }
+
         public List<Vagao> getVagaoByPeso(int peso)
         {
-            var vagoes = getVagoes();
-            return vagoes.Where(x => x.Peso == peso).ToList();
+           var vagoes = getVagoes();
+           return vagoes.Where(x => x.Peso == peso).ToList();
         }
     }
 }

@@ -62,6 +62,11 @@ namespace aula.lista
                     BuscarVagaoPorId();
                     Console.ReadLine();
                     break;
+                case "5":
+                    Console.Clear();
+                    BuscarVagaoPorNome();
+                    Console.ReadLine();
+                    break;
                 case "6":
                     Console.Clear();
                     BuscarVagaoPorPeso();
@@ -121,6 +126,20 @@ namespace aula.lista
             Console.WriteLine($"ID: {vagao.Id}");
             Console.WriteLine($"Carga: {vagao.Carga}");
             Console.WriteLine($"Peso: {vagao.Peso}");
+        }
+
+        public static void BuscarVagaoPorNome()
+        {
+            Console.Write("Nome: ");
+            var carga = Console.ReadLine();
+            var vagoes = gerenciarVagoes.getVagaoByName(carga);
+
+            foreach (var vagao in vagoes)
+            {
+                Console.WriteLine($"ID: {vagao.Id}");
+                Console.WriteLine($"Carga: {vagao.Carga}");
+                Console.WriteLine($"Peso: {vagao.Peso}");
+            }
         }
 
         public static void BuscarVagaoPorPeso()
