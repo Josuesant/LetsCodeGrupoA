@@ -10,10 +10,10 @@ namespace aula.lista
             2 - Exibir o último vagão - OK
             3 - Exibir todos os vagões - OK
             4 - Buscar por id dentro do trem - OK
-            5 - Buscar por nome dentro do trem
-            6 - Buscar por peso dentro do trem
+            5 - Buscar por nome dentro do trem - OK
+            6 - Buscar por peso dentro do trem - OK
             7 - Atualizar as informações de um vagão - OK
-            8 - Excluir um vagão
+            8 - Excluir um vagão - OK
             0 - Sair - OK
     **/
 
@@ -23,23 +23,7 @@ namespace aula.lista
 
         public static void main()
         {
-            Console.Clear();
-            Console.WriteLine("Escolha uma das opções...");
-            Console.WriteLine("1. Adicionar um novo vagão");
-            
-            if(gerenciarVagoes.Trem != null)
-            {
-                Console.WriteLine("2. Exibir o último vagão");
-                Console.WriteLine("3. Exibir todos os vagões");
-                Console.WriteLine("4. Buscar por id dentro do trem");
-                Console.WriteLine("5. Buscar por nome dentro do trem");
-                Console.WriteLine("6. Buscar por peso dentro do trem");
-                Console.WriteLine("7. Atualizar as informações de um vagão");
-                Console.WriteLine("8. Excluir um vagão");
-            }
-
-            Console.WriteLine("0. Sair");
-            Console.WriteLine("Opção: ");
+            ExibirOpcoes();
 
             switch (Console.ReadLine())
             {
@@ -66,7 +50,7 @@ namespace aula.lista
                     break;
 		        case "8":
                     ExcluirVagao();
-                break;
+                    break;
                 case "0":
                     Environment.Exit(0);
                     break;
@@ -76,21 +60,49 @@ namespace aula.lista
             }
             main();
         }
+        private static void ExibirOpcoes()
+        {
+            Console.Clear();
+            Console.WriteLine("Escolha uma das opções...");
+            Console.WriteLine("1. Adicionar um novo vagão");
+
+            if (gerenciarVagoes.Trem != null)
+            {
+                Console.WriteLine("2. Exibir o último vagão");
+                Console.WriteLine("3. Exibir todos os vagões");
+                Console.WriteLine("4. Buscar por id dentro do trem");
+                Console.WriteLine("5. Buscar por nome dentro do trem");
+                Console.WriteLine("6. Buscar por peso dentro do trem");
+                Console.WriteLine("7. Atualizar as informações de um vagão");
+                Console.WriteLine("8. Excluir um vagão");
+            }
+
+            Console.WriteLine("0. Sair");
+            Console.WriteLine("Opção: ");
+        }
 
         private static void AdicionarVagao()
         {
             Console.Clear();
-            gerenciarVagoes.InserirVagao(CriarVagao());
-            Console.WriteLine("Vagão adicionado!");
-            Console.ReadLine();
-        }
-
-        private static Vagao CriarVagao()
-        {
             Console.WriteLine("NOVO VAGÃO\n");
             Console.WriteLine("Numero do Id: ");
 
             int id = Convert.ToInt32(Console.ReadLine());
+            var vagao = gerenciarVagoes.GetVagaoById(id);
+            
+            if(vagao is not null)
+                Console.WriteLine("Já existe um vagão com esse Id");
+            else
+            {
+                gerenciarVagoes.InserirVagao(CriarVagao(id));
+                Console.WriteLine("Vagão adicionado!");
+            }
+
+            Console.ReadLine();
+        }
+
+        private static Vagao CriarVagao(int id)
+        {
             Console.WriteLine("Nome da carga: ");
             var carga = Console.ReadLine();
             Console.WriteLine("Peso da carga: ");
@@ -110,6 +122,7 @@ namespace aula.lista
 
             Console.ReadLine();
         }
+
         private static void ExibirVagao(Vagao vagao)
         {
             Console.WriteLine($"ID: {vagao.Id}");

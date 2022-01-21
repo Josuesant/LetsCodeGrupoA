@@ -35,7 +35,7 @@ namespace aula.lista
             {
                 _trem.Add(tempVagao);
                 tempVagao = tempVagao.VagaoAnterior;
-            };
+            }
             return _trem;
         }
 
