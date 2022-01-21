@@ -76,6 +76,14 @@ namespace aula.lista
                     Console.Clear();
                     AtualizarVagao();
                     break;
+		        case "8":
+                    Console.Clear();
+                    Console.Write("Digite o ID do vagão que deseja excluir: ");
+                    var id = Convert.ToInt32(Console.ReadLine());
+                    gerenciarVagoes.deletarVagaoById(id);
+                    Console.WriteLine("Vagão excluído!");
+                    Console.ReadLine();
+                break;
                 case "0":
                     Environment.Exit(0);
                     break;

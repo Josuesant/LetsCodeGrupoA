@@ -56,5 +56,25 @@ namespace aula.lista
            var vagoes = getVagoes();
            return vagoes.Where(x => x.Peso == peso).ToList();
         }
+
+        public void deletarVagaoById(int id)
+        {
+            var v = Trem;
+            if (Trem.Id == id)
+            {
+                Trem = Trem.VagaoAnterior;
+            }
+            else
+            {
+                while (v != null)
+                {
+                    if (id == v.VagaoAnterior.Id)
+                    {
+                        v.VagaoAnterior = v.VagaoAnterior.VagaoAnterior;
+                    }
+                    v = v.VagaoAnterior;
+                }
+            }
+        }
     }
 }
