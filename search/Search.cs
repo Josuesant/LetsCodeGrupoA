@@ -4,44 +4,31 @@ namespace LetsCodeGrupoA.search
 {
     public static class Search
     {
-        public static int[] elementos = new int[10];
-        public static void LinearSearch(int numero) {
-            for (int i = 0; i < elementos.Length; i++)
-            {
-                if (elementos[i] == numero)
-                {
-                    Console.WriteLine("Busca feita com sucesso " + "O número " + elementos[i] + " foi encontrado no índice " + i);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Busca falhou...");
-                }
-            }
+        public static int LinearSearch(int[] elements, int number) {
+            for (int i = 0; i < elements.Length; i++)            
+                if (elements[i] == number)
+                    return i;                        
+            
+            throw new Exception("Busca falhou...");
         }
 
-        public static void BinarySearch(int numero) {
+        public static int BinarySearch(int[] elements, int numero) {
             int baixo = 0;
-            int alto = elementos.Length - 1;
+            int alto = elements.Length - 1;
 
             while (baixo <= alto)
             {
                 int medio = (baixo + alto) / 2;
 
-                if (numero < elementos[medio])
-                {
+                if (numero < elements[medio])
                     alto = medio - 1;
-                }
-                else if (numero > elementos[medio])
-                {
+                else if (numero > elements[medio])
                     baixo = medio + 1;
-                }
-                else if (numero == elementos[medio])
-                {
-                    Console.WriteLine("Busca feita com sucesso " + "O número " + numero + " foi encontrado no índice " + medio);
-                    break;
-                }
+                else if (numero == elements[medio])                
+                    return medio;                
             }
+
+            throw new Exception("Busca falhou...");
         }
     }
 }

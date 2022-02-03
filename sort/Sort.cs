@@ -5,48 +5,43 @@ namespace LetsCodeGrupoA.sort
 {
     public static class Sort
     {
-        public static int[] elementos = new int[5];
-        public static void InsertionSort()
+        public static int[] InsertionSort(int[] elements)
         {
-
-            int temp, j;
-            for (int i = 1; i < elementos.Length; i++)
+            int value, previousPosition;
+            for (int i = 1; i < elements.Length; i++)
             {
-                temp = elementos[i];
-                j = i - 1;
+                value = elements[i];
+                previousPosition = i - 1;
 
-                while (j >= 0 && elementos[j] > temp)
+                while (previousPosition >= 0 && elements[previousPosition] > value)
                 {
-                    elementos[j + 1] = elementos[j];
-                    j--;
+                    elements[previousPosition + 1] = elements[previousPosition];
+                    previousPosition--;
                 }
 
-                elementos[j + 1] = temp;
+                elements[previousPosition + 1] = value;
             }
+            return elements;
         }
 
-        public static void Quicksort(int[] elementos, int left, int right)
+        public static int[] QuickSort(int[] elements, int left, int right)
         {
             int i = left, j = right;
-            IComparable pivot = elementos[(left + right) / 2];
+            IComparable pivot = elements[(left + right) / 2];
 
             while (i <= j)
             {
-                while (elementos[i].CompareTo(pivot) < 0)
-                {
+                while (elements[i].CompareTo(pivot) < 0)               
                     i++;
-                }
 
-                while (elementos[j].CompareTo(pivot) > 0)
-                {
-                    j--;
-                }
+                while (elements[j].CompareTo(pivot) > 0)
+                    j--;                
 
                 if (i <= j)
                 {
-                    int tmp = elementos[i];
-                    elementos[i] = elementos[j];
-                    elementos[j] = tmp;
+                    int tmp = elements[i];
+                    elements[i] = elements[j];
+                    elements[j] = tmp;
 
                     i++;
                     j--;
@@ -54,100 +49,103 @@ namespace LetsCodeGrupoA.sort
             }
 
             if (left < j)
-            {
-                Quicksort(elementos, left, j);
-            }
+                QuickSort(elements, left, j);            
 
             if (i < right)
-            {
-                Quicksort(elementos, i, right);
-            }
+                QuickSort(elements, i, right);
+            
+            return elements;
         }
 
-        public static void DoMerge(int[] numeros, int left, int mid, int right)
+        public static void DoMerge(int[] elements, int left, int middle, int right)
         {
-            int[] temp = new int[25];
-            int i, left_end, num_elementos, tmp_pos;
+            int left_end = (middle - 1);
+            int tmp_pos = left;
+            int subarraySize = (right - left + 1);
+            int[] temp = new int[elements.Length];
 
-            left_end = (mid - 1);
-            tmp_pos = left;
-            num_elementos = (right - left + 1);
-
-            while ((left <= left_end) && (mid <= right))
+            while ((left <= left_end) && (middle <= right))
             {
-                if (elementos[left] <= elementos[mid])
-                    temp[tmp_pos++] = elementos[left++];
+                if (elements[left] <= elements[middle])
+                    temp[tmp_pos++] = elements[left++];
                 else
-                    temp[tmp_pos++] = elementos[mid++];
+                    temp[tmp_pos++] = elements[middle++];
             }
 
             while (left <= left_end)
-                temp[tmp_pos++] = elementos[left++];
+                temp[tmp_pos++] = elements[left++];
 
-            while (mid <= right)
-                temp[tmp_pos++] = elementos[mid++];
+            while (middle <= right)
+                temp[tmp_pos++] = elements[middle++];
 
-            for (i = 0; i < num_elementos; i++)
+            for (int i = 0; i < subarraySize; i++)
             {
-                elementos[right] = temp[right];
+                elements[right] = temp[right];
                 right--;
             }
         }
 
-        public static void MergeSort_Recursive(int[] numeros, int left, int right)
+        public static int[] MergeSort_Recursive(int[] elements, int left, int right)
         {
-            int mid;
-
             if (right > left)
             {
-                mid = (right + left) / 2;
-                MergeSort_Recursive(elementos, left, mid);
-                MergeSort_Recursive(elementos, (mid + 1), right);
+                int middle = (right + left) / 2;
+                MergeSort_Recursive(elements, left, middle);
+                MergeSort_Recursive(elements, (middle + 1), right);
 
-                DoMerge(numeros, left, (mid + 1), right);
+                DoMerge(elements, left, (middle + 1), right);
             }
+            return elements;
         }
 
-        public static void BubbleSort()
+        public static int[] BubbleSort(int[] elements)
         {
-            int temp;
-            for (int pass = 1; pass <= elementos.Length - 1; pass++)
+            int nextValue;
+            for (int pass = 1; pass <= elements.Length - 1; pass++)
             {
-                for (int i = 0; i <= elementos.Length - 2; i++)
+                for (int i = 0; i <= elements.Length - 2; i++)
                 {
-                    if (elementos[i] > elementos[i + 1])
+                    if (elements[i] > elements[i + 1])
                     {
-                        temp = elementos[i + 1];
-                        elementos[i + 1] = elementos[i];
-                        elementos[i] = temp;
+                        nextValue = elements[i + 1];
+                        elements[i + 1] = elements[i];
+                        elements[i] = nextValue;
                     }
                 }
             }
+            return elements;
         }
 
-        public static void ShellSort(int[] elementos)
+        public static int[] ShellSort(int[] elements)
         {
-            int n = elementos.Length;
-            int gap = n / 2;
-            int temp;
+            int arraySize = elements.Length;
+            int gap = arraySize / 2;
+            int value;
 
             while (gap > 0)
             {
-                for (int i = 0; i + gap < n; i++)
+                for (int i = 0; i + gap < arraySize; i++)
                 {
-                    int j = i + gap;
-                    temp = elementos[j]; 
+                    int lastPositionGap = i + gap;
 
-                    while (j - gap >= 0 && temp < elementos[j - gap]) 
+                    int firstPositionGap = lastPositionGap - gap;
+
+                    value = elements[lastPositionGap];
+
+                    while (firstPositionGap >= 0 && value < elements[firstPositionGap]) 
                     {
-                        elementos[j] = elementos[j - gap];
-                        j = j - gap;
+                        elements[lastPositionGap] = elements[firstPositionGap];
+                        lastPositionGap = firstPositionGap;
+                        firstPositionGap--;
                     }
 
-                    elementos[j] = temp;
+                    elements[lastPositionGap] = value;
+
                 }
                 gap = gap / 2;
             }
+            return elements;
+
         }
     }
 }
